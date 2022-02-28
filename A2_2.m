@@ -15,6 +15,8 @@ Carea = ones(nx,ny); %set conduction area to 1
 %Box dimensions 
 xBox = 25; 
 yBox = 15; 
+x0 = 1;
+x1 = 0;
 % In area, place boxes with new conduction
 Carea(nx/2 - xBox/2:nx/2 + yBox/2,1:yBox) = boxCond; %Bottom Box 
 Carea(nx/2 - xBox/2:nx/2 + yBox/2,ny-yBox:ny) = boxCond; %Top Box
@@ -29,9 +31,10 @@ for i = 1:nx
         nyp = j+1 + (i-1) * ny; % down
         if i == 1 %Left Boundary V=Vo
             G(n,n) = 1;
-            F(n,1) = 1;
+            F(n,1) = x0;
         elseif i == nx %Right Boundary V=Vo
             G(n,n) = 1;
+            F(n,1) = x1;
         elseif j == 1 %Bottom Boundary (Free)
             bxm = (Carea(i,j) + Carea(i-1,j)) / 2;
             bxp = (Carea(i,j) + Carea(i+1,j)) / 2;
@@ -70,11 +73,22 @@ spy(G);
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution')
+figure('name', 'Voltage Solution')
 surf(Vmap');
 
-figure('name', 'Quiver')
-[Ex,Ey] = gradient(Vmap);
-quiver(-Ex,-Ey,1);
+% Conductivity Map
+figure('name', 'Conductivity Map');
+surf(Carea), title('Conductivity Map');
+
+% Electric Field
+[Ex,Ey] = gradient(-Vmap);
+figure('name', 'Electric Field');
+quiver(Ex,Ey,1.1), title('Electric Field');
+
+% Current Flow
+Jx = Carea'.* Ex;
+Jy = Carea'.* Ey;
+figure('name', 'Current Flow');
+quiver(Jx,Jy,1.1), title('Current Flow');
 
 
