@@ -283,4 +283,5 @@ ylabel('Maximum Current Density (A/m^2)');
 title('Max Current vs Box Conductivity');
 
 %When increasing the conductivity of the boxes, more current will flow
-%through them reducing the maximum current density
+%through them increasing the maximum current density through the entire
+%area
