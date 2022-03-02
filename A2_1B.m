@@ -1,4 +1,6 @@
 clc; close all; clear all;
+%Jinseng Vanderkloot 
+%101031534
 
 nx = 75; % # of colums
 ny = 50; % # of rows
@@ -33,30 +35,35 @@ for i = 1:nx
     end
 end
 
-figure('name', 'G Matrix'), spy(G);
+% figure('name', 'G Matrix'), spy(G);
+%Weird overlapping plot issues
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution'), surf(Vmap');
+figure('name', 'Solution');
+surf(Vmap),view(2);
 
-[Ex,Ey] = gradient(Vmap);
-figure('name', 'Quiver'), quiver(-Ex,-Ey,1);
 
+% [Ex,Ey] = gradient(Vmap);
+% figure('name', 'Quiver'), quiver(-Ex,-Ey);
+% Weird overlapping plot issues
+
+%% Run in sections so loop doesnt overlap 
 
 % Mathmatical Solution
-L = 75;
-W = 50;
-a = L;
-b = W/2;
-x = linspace(-b, b, nx);
+a = nx;
+b = ny/2;
+x = linspace(-b, b, nx); % needs to be + and - for both sides of surface 
 y = linspace(0, a, ny);
 V2 = zeros(ny, nx);
+
 
 figure('name', 'Equation Solution')
 [X,Y] = meshgrid(x,y);
 for n = 1:2:99 %1,3,5,7...99
     V2 = V2 + ( (1/n) * (cosh((n*pi*X)/a)/cosh((n*pi*b)/a)).* sin((n*pi*Y)/a) );
-    surf(4/pi*V2'), title('Equation Solution');
+    surf(4/pi*V2), title('Equation Solution');
+    view(2);
     pause(0.01);
 end
 

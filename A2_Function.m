@@ -2,6 +2,9 @@
 % of area, size of boxes (placed into the middle x and bottom and top).
 % and box conduction values
 
+%Jinseng Vanderkloot 
+%101031534
+
 function [V] = A2_Function(nx, ny, xBox, yBox,boxCond,x0,x1)
 %Inputs: 
 %Area x dimension, Area y dimension, box x dimension in middle of area, 

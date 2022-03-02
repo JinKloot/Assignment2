@@ -1,6 +1,9 @@
 clc; close all; clear all;
 %Visualize meshing density and see effect.
 
+%Jinseng Vanderkloot 
+%101031534
+
 mesh = 1:1:5; %increase mesh 5 times and see effect 
 x0 = 1; %voltage at right side of area 
 x1 = 0; %Voltage at left side of area
@@ -18,7 +21,7 @@ for a = 1:size(mesh,2)
     V=A2_Function(nx, ny, xBox, yBox, a, x0, x1);
     Vmap = reshape(V, [ny, nx]);
     J = Carea'.*gradient(-Vmap);
-    cur(a,1) = max(J,[],"all");
+    cur(a,1) = max(J,[],"all"); %look for highest value current in an area 
 
     figure('name', 'Voltage Solution')
     surf(Vmap');

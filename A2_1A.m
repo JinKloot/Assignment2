@@ -1,5 +1,8 @@
 clc; close all; clear all;
 
+%Jinseng Vanderkloot 
+%101031534
+
 nx = 75; % # of colums
 ny = 50; % # of rows
 G = sparse(nx*ny,ny*nx);
@@ -44,7 +47,7 @@ spy(G);
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
 figure('name', 'Solution');
-surf(Vmap'), title('Solution');
+surf(Vmap'), title('Solution'), view(90,0);
 
 figure('name', 'Quiver');
 [Ex,Ey] = gradient(Vmap);

@@ -1,5 +1,8 @@
 clc; close all; clear all;
 
+%Jinseng Vanderkloot 
+%101031534
+
 %Simulation to test different parameter, Turn the common for loop into a
 %function to be able to change the parameters for the report by calling the
 %function. 
@@ -17,7 +20,8 @@ xBox = 25;
 yBox = 15; 
 x0 = 1;
 x1 = 0;
-% In area, place boxes with new conduction
+% In area, place boxes with new conduction - Use array indexing suggested
+% by TA from lab 1 to get rid of for loops and make code faster
 Carea(nx/2 - xBox/2:nx/2 + yBox/2,1:yBox) = boxCond; %Bottom Box 
 Carea(nx/2 - xBox/2:nx/2 + yBox/2,ny-yBox:ny) = boxCond; %Top Box
 
@@ -74,7 +78,7 @@ spy(G);
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
 figure('name', 'Voltage Solution')
-surf(Vmap');
+surf(Vmap'), view(2);
 
 % Conductivity Map
 figure('name', 'Conductivity Map');
@@ -83,12 +87,12 @@ surf(Carea), title('Conductivity Map');
 % Electric Field
 [Ex,Ey] = gradient(-Vmap);
 figure('name', 'Electric Field');
-quiver(Ex,Ey,1.1), title('Electric Field');
+quiver(Ex,Ey), title('Electric Field');
 
 % Current Flow
 Jx = Carea'.* Ex;
 Jy = Carea'.* Ey;
 figure('name', 'Current Flow');
-quiver(Jx,Jy,1.1), title('Current Flow');
+quiver(Jx,Jy), title('Current Flow');
 
 

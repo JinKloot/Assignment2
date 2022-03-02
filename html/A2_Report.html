@@ -1,0 +1,627 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ELEC 4700 Assignment 2</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-02-28"><meta name="DC.source" content="A2_Report.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ELEC 4700 Assignment 2</h1><!--introduction--><p>Finite Difference Method - Jinseng Vanderkloot 101031534 - Due: March 1, 2022</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.</a></li><li><a href="#4">Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape.</a></li><li><a href="#7">Analytical Solution</a></li><li><a href="#8">Part 2 - made a function to easily change the parameters of the area.</a></li><li><a href="#9">A2_2A - Get Current Flow through area and use function.</a></li><li><a href="#10">A2_2B - Change Mesh Density</a></li><li><a href="#11">A2_2C - Narrow the Bottleneck</a></li><li><a href="#12">A2_2D - Varrying conductivity in the box</a></li></ul></div><h2 id="1">Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+ny = 50; <span class="comment">% # of rows</span>
+G = sparse(nx*ny,ny*nx);
+F = zeros(nx*ny,1);
+
+<span class="keyword">for</span> i = 1:nx
+    <span class="keyword">for</span> j = 1:ny
+        n = j + (i-1) * ny;     <span class="comment">% middle</span>
+        nxm = j + (i-2) * ny;   <span class="comment">% right</span>
+        nxp = j + i * ny;       <span class="comment">% left</span>
+        nym = j-1 + (i-1) * ny; <span class="comment">% top</span>
+        nyp = j+1 + (i-1) * ny; <span class="comment">% down</span>
+        <span class="keyword">if</span> i == 1 <span class="comment">%Left Boundary V=Vo</span>
+            G(n,n) = 1;
+            F(n,1) = 1;
+        <span class="keyword">elseif</span> i == nx <span class="comment">%Right Boundary V=0</span>
+            G(n,n) = 1;
+        <span class="keyword">elseif</span> j == 1 <span class="comment">%Bottom</span>
+            G(n,n) = -3;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nyp) = 1;
+        <span class="keyword">elseif</span> j == ny <span class="comment">%Top</span>
+            G(n,n) = -3;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nym) = 1;
+        <span class="keyword">else</span> <span class="comment">%Middle</span>
+            G(n,n) = -4;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nym) = 1;
+            G(n,nyp) = 1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+V = G\F;
+Vmap = reshape(V, [ny, nx]); <span class="comment">% Reshaping Vector to a matrix</span>
+figure(<span class="string">'name'</span>, <span class="string">'Solution 1A'</span>), title(<span class="string">'Simulation Solution'</span>), surf(Vmap'), view(90,0);
+</pre><img vspace="5" hspace="5" src="A2_Report_01.png" alt=""> <h2 id="4">Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape.</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+ny = 50; <span class="comment">% # of rows</span>
+G = sparse(nx*ny,ny*nx);
+F = zeros(nx*ny,1);
+<span class="keyword">for</span> i = 1:nx
+    <span class="keyword">for</span> j = 1:ny
+        n = j + (i-1) * ny;     <span class="comment">% middle</span>
+        nxm = j + (i-2) * ny;   <span class="comment">% right</span>
+        nxp = j + i * ny;       <span class="comment">% left</span>
+        nym = j-1 + (i-1) * ny; <span class="comment">% top</span>
+        nyp = j+1 + (i-1) * ny; <span class="comment">% down</span>
+        <span class="keyword">if</span> i == 1 <span class="comment">%Left Boundary V=Vo</span>
+            G(n,n) = 1;
+            F(n,1) = 1;
+        <span class="keyword">elseif</span> i == nx <span class="comment">%Right Boundary V=Vo</span>
+            G(n,n) = 1;
+            F(n,1) = 1;
+        <span class="keyword">elseif</span> j == 1 <span class="comment">%Bottom Boundary V=0</span>
+            G(n,n) = 1;
+            F(n,1) = 0;
+        <span class="keyword">elseif</span> j == ny <span class="comment">%Top Boundary V=0</span>
+            G(n,n) = 1;
+            F(n,1) = 0;
+        <span class="keyword">else</span> <span class="comment">%Middle</span>
+            G(n,n) = -4;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nym) = 1;
+            G(n,nyp) = 1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+V = G\F;
+Vmap = reshape(V, [ny, nx]); <span class="comment">% Reshaping Vector to a matrix</span>
+figure(<span class="string">'name'</span>, <span class="string">'Solution 1B'</span>), surf(Vmap), view(0,90);
+</pre><img vspace="5" hspace="5" src="A2_Report_02.png" alt=""> <h2 id="7">Analytical Solution</h2><pre class="codeinput">a = nx;
+b = ny/2;
+x = linspace(-b, b, nx); <span class="comment">% needs to be +b and -b for both sides of surface</span>
+y = linspace(0, a, ny);
+V2 = zeros(ny, nx);
+
+figure(<span class="string">'name'</span>, <span class="string">'Equation Solution'</span>)
+[X,Y] = meshgrid(x,y);
+<span class="keyword">for</span> n = 1:2:99 <span class="comment">%1,3,5,7...99</span>
+    V2 = V2 + ( (1/n) * (cosh((n*pi*X)/a)/cosh((n*pi*b)/a)).* sin((n*pi*Y)/a) );
+    surf(4/pi*V2), title(<span class="string">'Equation Solution'</span>), view(0,90);
+    pause(0.01);
+<span class="keyword">end</span>
+<span class="comment">% The simulated solution matches closely the analytical solution, the analytical solution wont complete at the corners becuase it is infinite and hard to solve.</span>
+</pre><img vspace="5" hspace="5" src="A2_Report_03.png" alt=""> <h2 id="8">Part 2 - made a function to easily change the parameters of the area.</h2><pre class="codeinput"><span class="comment">%Make this into a function like in the intro to the lab which inputs size;</span>
+<span class="comment">% of area, size of boxes (placed into the middle x and bottom and top).;</span>
+<span class="comment">% and box conduction values;</span>
+<span class="comment">%function [V] = A2_Function(nx, ny, xBox, yBox,boxCond,x0,x1);</span>
+<span class="comment">%Inputs:;</span>
+<span class="comment">%Area x dimension, Area y dimension, box x dimension in middle of area,;</span>
+<span class="comment">%Box y dimension from bottom to high and from top down, box conductivity,;</span>
+<span class="comment">%x0 = volatge at left side, x1 = volatge at right side.;</span>
+<span class="comment">%</span>
+<span class="comment">% global Carea %NEEDS TO BE GLOBAL - a lot of issues when not global;</span>
+<span class="comment">%</span>
+<span class="comment">% % Add bottleneck;</span>
+<span class="comment">% Carea = ones(nx,ny); %set conduction area to 1;</span>
+<span class="comment">% % In area, place boxes with new conduction (faster than for loop) ;</span>
+<span class="comment">% Carea(nx/2 - xBox/2:nx/2 + yBox/2,1:yBox) = boxCond; %Bottom Box;</span>
+<span class="comment">% Carea(nx/2 - xBox/2:nx/2 + yBox/2,ny-yBox:ny) = boxCond; %Top Box;</span>
+<span class="comment">%</span>
+<span class="comment">% G = sparse(nx*ny,ny*nx);</span>
+<span class="comment">% F = zeros(nx*ny,1);</span>
+<span class="comment">%</span>
+<span class="comment">% for i = 1:nx;</span>
+<span class="comment">%     for j = 1:ny;</span>
+<span class="comment">%         n = j + (i-1) * ny;     % middle;</span>
+<span class="comment">%         nxm = j + (i-2) * ny;   % right;</span>
+<span class="comment">%         nxp = j + i * ny;       % left;</span>
+<span class="comment">%         nym = j-1 + (i-1) * ny; % top;</span>
+<span class="comment">%         nyp = j+1 + (i-1) * ny; % down;</span>
+<span class="comment">%         if i == 1 %Left Boundary V=Vo</span>
+<span class="comment">%             G(n,n) = 1;</span>
+<span class="comment">%             F(n,1) = x0;</span>
+<span class="comment">%         elseif i == nx %Right Boundary V=Vo</span>
+<span class="comment">%             G(n,n) = 1;</span>
+<span class="comment">%             F(n,1) = x1;</span>
+<span class="comment">%         elseif j == 1 %Bottom Boundary (Free)</span>
+<span class="comment">%             bxm = (Carea(i,j) + Carea(i-1,j)) / 2;</span>
+<span class="comment">%             bxp = (Carea(i,j) + Carea(i+1,j)) / 2;</span>
+<span class="comment">%             byp = (Carea(i,j) + Carea(i,j+1)) / 2;</span>
+<span class="comment">%</span>
+<span class="comment">%             G(n,n) = -(bxm + bxp + byp);</span>
+<span class="comment">%             G(n,nxm) = bxm;</span>
+<span class="comment">%             G(n,nxp) = bxp;</span>
+<span class="comment">%             G(n,nyp) = byp;</span>
+<span class="comment">%         elseif j == ny %Top Boundary (Free)</span>
+<span class="comment">%             bxm = (Carea(i,j) + Carea(i-1,j)) / 2;</span>
+<span class="comment">%             bxp = (Carea(i,j) + Carea(i+1,j)) / 2;</span>
+<span class="comment">%             bym = (Carea(i,j) + Carea(i,j-1)) / 2;</span>
+<span class="comment">%</span>
+<span class="comment">%             G(n,n) = -(bxm + bxp + bym);</span>
+<span class="comment">%             G(n,nxm) = bxm;</span>
+<span class="comment">%             G(n,nxp) = bxp;</span>
+<span class="comment">%             G(n,nym) = bym;</span>
+<span class="comment">%         else %Middle</span>
+<span class="comment">%             bxm = (Carea(i,j) + Carea(i-1,j)) / 2;</span>
+<span class="comment">%             bxp = (Carea(i,j) + Carea(i+1,j)) / 2;</span>
+<span class="comment">%             byp = (Carea(i,j) + Carea(i,j+1)) / 2;</span>
+<span class="comment">%             bym = (Carea(i,j) + Carea(i,j-1)) / 2;</span>
+<span class="comment">%</span>
+<span class="comment">%             G(n,n) = -(bxm + bxp + bym + byp);</span>
+<span class="comment">%             G(n,nxm) = bxm;</span>
+<span class="comment">%             G(n,nxp) = bxp;</span>
+<span class="comment">%             G(n,nym) = bym;</span>
+<span class="comment">%             G(n,nyp) = byp;</span>
+<span class="comment">%         end</span>
+<span class="comment">%     end</span>
+<span class="comment">% end</span>
+<span class="comment">% V = G\F;</span>
+<span class="comment">% end</span>
+</pre><h2 id="9">A2_2A - Get Current Flow through area and use function.</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+ny = 50; <span class="comment">% # of rows</span>
+xBox = 25; <span class="comment">%Width of box</span>
+yBox = 15; <span class="comment">%Hight of box</span>
+boxCond = 0.01;
+x0 = 1; <span class="comment">%voltage at right side of area</span>
+x1 = 0; <span class="comment">%Voltage at left side of area</span>
+<span class="keyword">global</span> Carea <span class="comment">%Must declare global for both in and out of function</span>
+
+
+V=A2_Function(nx, ny, xBox, yBox, boxCond, x0, x1);
+
+Vmap = reshape(V, [ny, nx]); <span class="comment">% Reshaping Vector to a matrix</span>
+figure(<span class="string">'name'</span>, <span class="string">'Voltage Solution'</span>)
+surf(Vmap),title(<span class="string">'Voltage Map'</span>),view(2);
+
+<span class="comment">% Conductivity Map</span>
+figure(<span class="string">'name'</span>, <span class="string">'Conductivity Map'</span>);
+surf(Carea), title(<span class="string">'Conductivity Map'</span>);
+
+<span class="comment">% Electric Field</span>
+[Ex,Ey] = gradient(-Vmap);
+figure(<span class="string">'name'</span>, <span class="string">'Electric Field'</span>);
+quiver(Ex,Ey), title(<span class="string">'Electric Field'</span>);
+
+<span class="comment">% Current Flow</span>
+Jx = Carea'.* Ex;
+Jy = Carea'.* Ey;
+figure(<span class="string">'name'</span>, <span class="string">'Current Flow'</span>);
+quiver(Jx,Jy), title(<span class="string">'Current Flow'</span>);
+
+<span class="comment">%When size of area increases, there is more space for current to flow</span>
+<span class="comment">%therefor the current density if less.</span>
+</pre><img vspace="5" hspace="5" src="A2_Report_04.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_05.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_06.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_07.png" alt=""> <h2 id="10">A2_2B - Change Mesh Density</h2><pre class="codeinput">warning (<span class="string">'off'</span>)
+mesh = 1:1:5; <span class="comment">%increase mesh 5 times in steps of 1 and see effect</span>
+x0 = 1; <span class="comment">%voltage at right side of area</span>
+x1 = 0; <span class="comment">%Voltage at left side of area</span>
+cur = zeros(size(mesh,2),1);
+<span class="keyword">global</span> Carea <span class="comment">%Must declare global for both in and out of function</span>
+
+<span class="keyword">for</span> a = 1:size(mesh,2)
+    <span class="comment">%Size of area and box changes to increase mesh</span>
+    nx = 75*a; <span class="comment">% # of colums</span>
+    ny = 50*a; <span class="comment">% # of rows</span>
+
+    xBox = 25*a; <span class="comment">%Width of box</span>
+    yBox = 15*a; <span class="comment">%Length of box</span>
+
+    V=A2_Function(nx, ny, xBox, yBox, a, x0, x1);
+    Vmap = reshape(V, [ny, nx]);
+    J = Carea'.*gradient(-Vmap);
+    cur(a,1) = max(J,[],<span class="string">"all"</span>);
+<span class="keyword">end</span>
+
+figure(<span class="string">'name'</span>, <span class="string">'Max Current vs Mesh size'</span>);
+plot(mesh,cur, <span class="string">'r'</span>);
+xlabel(<span class="string">'Mesh size'</span>);
+ylabel(<span class="string">'Maximum Current Density (A/m^2)'</span>);
+title(<span class="string">'Max Current vs Mesh size'</span>);
+</pre><img vspace="5" hspace="5" src="A2_Report_08.png" alt=""> <h2 id="11">A2_2C - Narrow the Bottleneck</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+ny = 50; <span class="comment">% # of rows</span>
+xBox = 25; <span class="comment">%Width of box</span>
+yBox = 1:1:25; <span class="comment">%Length of box</span>
+boxCond = 0.01;
+x0 = 1; <span class="comment">%voltage at right side of area</span>
+x1 = 0; <span class="comment">%Voltage at left side of area</span>
+cur = zeros(25,1);
+<span class="keyword">global</span> Carea <span class="comment">%Must declare global for both in and out of function</span>
+
+<span class="keyword">for</span> a = 1:25
+    V=A2_Function(nx, ny, xBox, a, boxCond, x0, x1);
+    Vmap = reshape(V, [ny, nx]);
+    J = Carea'.*gradient(-Vmap);
+    cur(a,1) = max(J,[],<span class="string">"all"</span>);
+<span class="keyword">end</span>
+
+figure(<span class="string">'name'</span>, <span class="string">'Max Current vs bottle-neck'</span>);
+plot(yBox,cur, <span class="string">'r'</span>);
+xlabel(<span class="string">'Height of Box (m)'</span>);
+ylabel(<span class="string">'Maximum Current Density (A/m^2)'</span>);
+title(<span class="string">'Max Current vs bottle-neck'</span>);
+
+<span class="comment">%Current Density increases as the current squeezes though a smaller area</span>
+<span class="comment">%until it is completely cut off.</span>
+</pre><img vspace="5" hspace="5" src="A2_Report_09.png" alt=""> <h2 id="12">A2_2D - Varrying conductivity in the box</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+ny = 50; <span class="comment">% # of rows</span>
+xBox = 25; <span class="comment">%Width of box</span>
+yBox = 15; <span class="comment">%Length of box</span>
+boxCond = logspace(0.0001,100); <span class="comment">%increase in increments of x10</span>
+x0 = 1; <span class="comment">%voltage at right side of area</span>
+x1 = 0; <span class="comment">%Voltage at left side of area</span>
+cur = zeros(size(boxCond,2),1);
+<span class="keyword">global</span> Carea <span class="comment">%Must declare global for both in and out of function</span>
+
+<span class="keyword">for</span> a = 1:size(boxCond,2)
+    V=A2_Function(nx, ny, xBox, yBox, a, x0, x1);
+    Vmap = reshape(V, [ny, nx]);
+    J = Carea'.*gradient(-Vmap);
+    cur(a,1) = max(J,[],<span class="string">"all"</span>);
+<span class="keyword">end</span>
+
+figure(<span class="string">'name'</span>, <span class="string">'Max Current vs Box Conductivity'</span>);
+plot(boxCond,cur, <span class="string">'r'</span>);
+set(gca, <span class="string">'XScale'</span>, <span class="string">'log'</span>);
+xlabel(<span class="string">'Box Conductivity (S/m)'</span>);
+ylabel(<span class="string">'Maximum Current Density (A/m^2)'</span>);
+title(<span class="string">'Max Current vs Box Conductivity'</span>);
+
+<span class="comment">%When increasing the conductivity of the boxes, more current will flow</span>
+<span class="comment">%through them reducing the maximum current density</span>
+</pre><img vspace="5" hspace="5" src="A2_Report_10.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ELEC 4700 Assignment 2
+% Finite Difference Method - Jinseng Vanderkloot 101031534 - Due: March 1, 2022
+
+%% Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.
+nx = 75; % # of colums
+ny = 50; % # of rows
+G = sparse(nx*ny,ny*nx);
+F = zeros(nx*ny,1);
+
+for i = 1:nx
+    for j = 1:ny
+        n = j + (i-1) * ny;     % middle
+        nxm = j + (i-2) * ny;   % right
+        nxp = j + i * ny;       % left
+        nym = j-1 + (i-1) * ny; % top
+        nyp = j+1 + (i-1) * ny; % down
+        if i == 1 %Left Boundary V=Vo
+            G(n,n) = 1;
+            F(n,1) = 1;
+        elseif i == nx %Right Boundary V=0
+            G(n,n) = 1;
+        elseif j == 1 %Bottom
+            G(n,n) = -3;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nyp) = 1;
+        elseif j == ny %Top
+            G(n,n) = -3;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nym) = 1;
+        else %Middle 
+            G(n,n) = -4;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nym) = 1;
+            G(n,nyp) = 1;
+        end
+    end
+end
+
+V = G\F;
+Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
+figure('name', 'Solution 1A'), title('Simulation Solution'), surf(Vmap'), view(90,0);
+%% 
+%% 
+%% Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape. 
+nx = 75; % # of colums
+ny = 50; % # of rows
+G = sparse(nx*ny,ny*nx);
+F = zeros(nx*ny,1);
+for i = 1:nx
+    for j = 1:ny
+        n = j + (i-1) * ny;     % middle
+        nxm = j + (i-2) * ny;   % right
+        nxp = j + i * ny;       % left
+        nym = j-1 + (i-1) * ny; % top
+        nyp = j+1 + (i-1) * ny; % down
+        if i == 1 %Left Boundary V=Vo
+            G(n,n) = 1;
+            F(n,1) = 1;
+        elseif i == nx %Right Boundary V=Vo
+            G(n,n) = 1;
+            F(n,1) = 1;
+        elseif j == 1 %Bottom Boundary V=0
+            G(n,n) = 1;
+            F(n,1) = 0;
+        elseif j == ny %Top Boundary V=0
+            G(n,n) = 1;
+            F(n,1) = 0;
+        else %Middle
+            G(n,n) = -4;
+            G(n,nxm) = 1;
+            G(n,nxp) = 1;
+            G(n,nym) = 1;
+            G(n,nyp) = 1;
+        end
+    end
+end
+
+V = G\F;
+Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
+figure('name', 'Solution 1B'), surf(Vmap), view(0,90);
+%% 
+%% 
+%% Analytical Solution 
+
+a = nx;
+b = ny/2;
+x = linspace(-b, b, nx); % needs to be +b and -b for both sides of surface 
+y = linspace(0, a, ny);
+V2 = zeros(ny, nx);
+
+figure('name', 'Equation Solution')
+[X,Y] = meshgrid(x,y);
+for n = 1:2:99 %1,3,5,7...99
+    V2 = V2 + ( (1/n) * (cosh((n*pi*X)/a)/cosh((n*pi*b)/a)).* sin((n*pi*Y)/a) );
+    surf(4/pi*V2), title('Equation Solution'), view(0,90);
+    pause(0.01);
+end
+% The simulated solution matches closely the analytical solution, the analytical solution wont complete at the corners becuase it is infinite and hard to solve.
+%% Part 2 - made a function to easily change the parameters of the area.
+%Make this into a function like in the intro to the lab which inputs size;
+% of area, size of boxes (placed into the middle x and bottom and top).;
+% and box conduction values;
+%function [V] = A2_Function(nx, ny, xBox, yBox,boxCond,x0,x1);
+%Inputs:; 
+%Area x dimension, Area y dimension, box x dimension in middle of area,; 
+%Box y dimension from bottom to high and from top down, box conductivity,;
+%x0 = volatge at left side, x1 = volatge at right side.; 
+% 
+% global Carea %NEEDS TO BE GLOBAL - a lot of issues when not global;
+%
+% % Add bottleneck;
+% Carea = ones(nx,ny); %set conduction area to 1;
+% % In area, place boxes with new conduction (faster than for loop) ;
+% Carea(nx/2 - xBox/2:nx/2 + yBox/2,1:yBox) = boxCond; %Bottom Box;
+% Carea(nx/2 - xBox/2:nx/2 + yBox/2,ny-yBox:ny) = boxCond; %Top Box;
+% 
+% G = sparse(nx*ny,ny*nx);
+% F = zeros(nx*ny,1);
+% 
+% for i = 1:nx;
+%     for j = 1:ny;
+%         n = j + (i-1) * ny;     % middle;
+%         nxm = j + (i-2) * ny;   % right;
+%         nxp = j + i * ny;       % left;
+%         nym = j-1 + (i-1) * ny; % top;
+%         nyp = j+1 + (i-1) * ny; % down;
+%         if i == 1 %Left Boundary V=Vo
+%             G(n,n) = 1;
+%             F(n,1) = x0;
+%         elseif i == nx %Right Boundary V=Vo
+%             G(n,n) = 1;
+%             F(n,1) = x1;
+%         elseif j == 1 %Bottom Boundary (Free)
+%             bxm = (Carea(i,j) + Carea(i-1,j)) / 2;
+%             bxp = (Carea(i,j) + Carea(i+1,j)) / 2;
+%             byp = (Carea(i,j) + Carea(i,j+1)) / 2;
+% 
+%             G(n,n) = -(bxm + bxp + byp);
+%             G(n,nxm) = bxm;
+%             G(n,nxp) = bxp;
+%             G(n,nyp) = byp;
+%         elseif j == ny %Top Boundary (Free)
+%             bxm = (Carea(i,j) + Carea(i-1,j)) / 2;
+%             bxp = (Carea(i,j) + Carea(i+1,j)) / 2;
+%             bym = (Carea(i,j) + Carea(i,j-1)) / 2;
+% 
+%             G(n,n) = -(bxm + bxp + bym);
+%             G(n,nxm) = bxm;
+%             G(n,nxp) = bxp;
+%             G(n,nym) = bym;
+%         else %Middle
+%             bxm = (Carea(i,j) + Carea(i-1,j)) / 2;
+%             bxp = (Carea(i,j) + Carea(i+1,j)) / 2;
+%             byp = (Carea(i,j) + Carea(i,j+1)) / 2;
+%             bym = (Carea(i,j) + Carea(i,j-1)) / 2;
+% 
+%             G(n,n) = -(bxm + bxp + bym + byp);
+%             G(n,nxm) = bxm;
+%             G(n,nxp) = bxp;
+%             G(n,nym) = bym;
+%             G(n,nyp) = byp;
+%         end
+%     end
+% end
+% V = G\F;
+% end
+%% A2_2A - Get Current Flow through area and use function. 
+nx = 75; % # of colums
+ny = 50; % # of rows
+xBox = 25; %Width of box 
+yBox = 15; %Hight of box 
+boxCond = 0.01; 
+x0 = 1; %voltage at right side of area 
+x1 = 0; %Voltage at left side of area
+global Carea %Must declare global for both in and out of function 
+
+
+V=A2_Function(nx, ny, xBox, yBox, boxCond, x0, x1);
+
+Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
+figure('name', 'Voltage Solution')
+surf(Vmap),title('Voltage Map'),view(2);
+
+% Conductivity Map
+figure('name', 'Conductivity Map');
+surf(Carea), title('Conductivity Map');
+
+% Electric Field
+[Ex,Ey] = gradient(-Vmap);
+figure('name', 'Electric Field');
+quiver(Ex,Ey), title('Electric Field');
+
+% Current Flow
+Jx = Carea'.* Ex;
+Jy = Carea'.* Ey;
+figure('name', 'Current Flow');
+quiver(Jx,Jy), title('Current Flow');
+
+%When size of area increases, there is more space for current to flow
+%therefor the current density if less. 
+%% A2_2B - Change Mesh Density 
+warning ('off')
+mesh = 1:1:5; %increase mesh 5 times in steps of 1 and see effect 
+x0 = 1; %voltage at right side of area 
+x1 = 0; %Voltage at left side of area
+cur = zeros(size(mesh,2),1);
+global Carea %Must declare global for both in and out of function 
+
+for a = 1:size(mesh,2)
+    %Size of area and box changes to increase mesh 
+    nx = 75*a; % # of colums
+    ny = 50*a; % # of rows
+    
+    xBox = 25*a; %Width of box 
+    yBox = 15*a; %Length of box 
+
+    V=A2_Function(nx, ny, xBox, yBox, a, x0, x1);
+    Vmap = reshape(V, [ny, nx]);
+    J = Carea'.*gradient(-Vmap);
+    cur(a,1) = max(J,[],"all");
+end
+
+figure('name', 'Max Current vs Mesh size');
+plot(mesh,cur, 'r');
+xlabel('Mesh size');
+ylabel('Maximum Current Density (A/m^2)');
+title('Max Current vs Mesh size');
+
+%% A2_2C - Narrow the Bottleneck 
+nx = 75; % # of colums
+ny = 50; % # of rows
+xBox = 25; %Width of box 
+yBox = 1:1:25; %Length of box 
+boxCond = 0.01; 
+x0 = 1; %voltage at right side of area 
+x1 = 0; %Voltage at left side of area
+cur = zeros(25,1);
+global Carea %Must declare global for both in and out of function 
+
+for a = 1:25
+    V=A2_Function(nx, ny, xBox, a, boxCond, x0, x1);
+    Vmap = reshape(V, [ny, nx]);
+    J = Carea'.*gradient(-Vmap);
+    cur(a,1) = max(J,[],"all");
+end
+
+figure('name', 'Max Current vs bottle-neck');
+plot(yBox,cur, 'r');
+xlabel('Height of Box (m)');
+ylabel('Maximum Current Density (A/m^2)');
+title('Max Current vs bottle-neck');
+
+%Current Density increases as the current squeezes though a smaller area
+%until it is completely cut off. 
+
+
+%% A2_2D - Varrying conductivity in the box 
+nx = 75; % # of colums
+ny = 50; % # of rows
+xBox = 25; %Width of box 
+yBox = 15; %Length of box 
+boxCond = logspace(0.0001,100); %increase in increments of x10
+x0 = 1; %voltage at right side of area 
+x1 = 0; %Voltage at left side of area
+cur = zeros(size(boxCond,2),1);
+global Carea %Must declare global for both in and out of function 
+
+for a = 1:size(boxCond,2)
+    V=A2_Function(nx, ny, xBox, yBox, a, x0, x1);
+    Vmap = reshape(V, [ny, nx]);
+    J = Carea'.*gradient(-Vmap);
+    cur(a,1) = max(J,[],"all");
+end
+
+figure('name', 'Max Current vs Box Conductivity');
+plot(boxCond,cur, 'r');
+set(gca, 'XScale', 'log');
+xlabel('Box Conductivity (S/m)');
+ylabel('Maximum Current Density (A/m^2)');
+title('Max Current vs Box Conductivity');
+
+%When increasing the conductivity of the boxes, more current will flow
+%through them reducing the maximum current density
+
+##### SOURCE END #####
+--></body></html>

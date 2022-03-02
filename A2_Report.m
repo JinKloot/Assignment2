@@ -1,7 +1,7 @@
 %% ELEC 4700 Assignment 2
-% Finite Difference Method
+% Finite Difference Method - Jinseng Vanderkloot 101031534 - Due: March 1, 2022
 
-%% Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom issolate.
+%% Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.
 nx = 75; % # of colums
 ny = 50; % # of rows
 G = sparse(nx*ny,ny*nx);
@@ -39,23 +39,12 @@ for i = 1:nx
     end
 end
 
-
-% figure('name', 'G Matrix')
-% spy(G);
-
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution')
-title('Simulation Solution')
-surf(Vmap');
-
-% figure('name', 'Quiver')
-% [Ex,Ey] = gradient(Vmap);
-% title('Quiver')
-% quiver(-Ex,-Ey,1);
+figure('name', 'Solution 1A'), title('Simulation Solution'), surf(Vmap'), view(90,0);
+%% 
+%% 
 %% Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape. 
-
-
 nx = 75; % # of colums
 ny = 50; % # of rows
 G = sparse(nx*ny,ny*nx);
@@ -89,24 +78,16 @@ for i = 1:nx
     end
 end
 
-% figure('name', 'G Matrix'),title('G Matrix')
-% spy(G);
-
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution'), title('Simulation Solution'), surf(Vmap');
-
-% [Ex,Ey] = gradient(Vmap);
-% figure('name', 'Quiver'), title('Voltage Quiver'), quiver(-Ex,-Ey,1);
-
+figure('name', 'Solution 1B'), surf(Vmap), view(0,90);
+%% 
+%% 
 %% Analytical Solution 
 
-% Mathmatical Solution
-L = 75;
-W = 50;
-a = L;
-b = W/2;
-x = linspace(-b, b, nx);
+a = nx;
+b = ny/2;
+x = linspace(-b, b, nx); % needs to be +b and -b for both sides of surface 
 y = linspace(0, a, ny);
 V2 = zeros(ny, nx);
 
@@ -114,38 +95,38 @@ figure('name', 'Equation Solution')
 [X,Y] = meshgrid(x,y);
 for n = 1:2:99 %1,3,5,7...99
     V2 = V2 + ( (1/n) * (cosh((n*pi*X)/a)/cosh((n*pi*b)/a)).* sin((n*pi*Y)/a) );
-    surf(4/pi*V2'), title('Equation Solution');
+    surf(4/pi*V2), title('Equation Solution'), view(0,90);
     pause(0.01);
 end
-%% The simulated solution matches closely the analytical solution, the analytical solution wont complete at the corners becuase it is infinite and hard to solve.
+% The simulated solution matches closely the analytical solution, the analytical solution wont complete at the corners becuase it is infinite and hard to solve.
 %% Part 2 - made a function to easily change the parameters of the area.
-% %Make this into a function like in the intro to the lab which inputs size
-% % of area, size of boxes (placed into the middle x and bottom and top).
-% % and box conduction values
-% function [V] = A2_Function(nx, ny, xBox, yBox,boxCond,x0,x1)
-% %Inputs: 
-% %Area x dimension, Area y dimension, box x dimension in middle of area, 
-% %Box y dimension from bottom to high and from top down, box conductivity,
-% %x0 = volatge at left side, x1 = volatge at right side. 
+%Make this into a function like in the intro to the lab which inputs size;
+% of area, size of boxes (placed into the middle x and bottom and top).;
+% and box conduction values;
+%function [V] = A2_Function(nx, ny, xBox, yBox,boxCond,x0,x1);
+%Inputs:; 
+%Area x dimension, Area y dimension, box x dimension in middle of area,; 
+%Box y dimension from bottom to high and from top down, box conductivity,;
+%x0 = volatge at left side, x1 = volatge at right side.; 
 % 
-% global Carea %NEEDS TO BE GLOBAL - a lot of issues when not global 
+% global Carea %NEEDS TO BE GLOBAL - a lot of issues when not global;
 %
-% % Add bottleneck
-% Carea = ones(nx,ny); %set conduction area to 1
-% % In area, place boxes with new conduction (faster than for loop) 
-% Carea(nx/2 - xBox/2:nx/2 + yBox/2,1:yBox) = boxCond; %Bottom Box
-% Carea(nx/2 - xBox/2:nx/2 + yBox/2,ny-yBox:ny) = boxCond; %Top Box
+% % Add bottleneck;
+% Carea = ones(nx,ny); %set conduction area to 1;
+% % In area, place boxes with new conduction (faster than for loop) ;
+% Carea(nx/2 - xBox/2:nx/2 + yBox/2,1:yBox) = boxCond; %Bottom Box;
+% Carea(nx/2 - xBox/2:nx/2 + yBox/2,ny-yBox:ny) = boxCond; %Top Box;
 % 
 % G = sparse(nx*ny,ny*nx);
 % F = zeros(nx*ny,1);
 % 
-% for i = 1:nx
-%     for j = 1:ny
-%         n = j + (i-1) * ny;     % middle
-%         nxm = j + (i-2) * ny;   % right
-%         nxp = j + i * ny;       % left
-%         nym = j-1 + (i-1) * ny; % top
-%         nyp = j+1 + (i-1) * ny; % down
+% for i = 1:nx;
+%     for j = 1:ny;
+%         n = j + (i-1) * ny;     % middle;
+%         nxm = j + (i-2) * ny;   % right;
+%         nxp = j + i * ny;       % left;
+%         nym = j-1 + (i-1) * ny; % top;
+%         nyp = j+1 + (i-1) * ny; % down;
 %         if i == 1 %Left Boundary V=Vo
 %             G(n,n) = 1;
 %             F(n,1) = x0;
@@ -201,7 +182,7 @@ V=A2_Function(nx, ny, xBox, yBox, boxCond, x0, x1);
 
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
 figure('name', 'Voltage Solution')
-surf(Vmap),title('Voltage Map');
+surf(Vmap),title('Voltage Map'),view(2);
 
 % Conductivity Map
 figure('name', 'Conductivity Map');
@@ -210,17 +191,18 @@ surf(Carea), title('Conductivity Map');
 % Electric Field
 [Ex,Ey] = gradient(-Vmap);
 figure('name', 'Electric Field');
-quiver(Ex,Ey,1.1), title('Electric Field');
+quiver(Ex,Ey), title('Electric Field');
 
 % Current Flow
 Jx = Carea'.* Ex;
 Jy = Carea'.* Ey;
 figure('name', 'Current Flow');
-quiver(Jx,Jy,1.1), title('Current Flow');
+quiver(Jx,Jy), title('Current Flow');
 
 %When size of area increases, there is more space for current to flow
 %therefor the current density if less. 
 %% A2_2B - Change Mesh Density 
+warning ('off')
 mesh = 1:1:5; %increase mesh 5 times in steps of 1 and see effect 
 x0 = 1; %voltage at right side of area 
 x1 = 0; %Voltage at left side of area
