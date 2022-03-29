@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>ELEC 4700 Assignment 2</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-03-01"><meta name="DC.source" content="A2_Report.m"><style type="text/css">
+      --><title>ELEC 4700 Assignment 2</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-03-21"><meta name="DC.source" content="A2_Report.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,7 +67,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>ELEC 4700 Assignment 2</h1><!--introduction--><p>Finite Difference Method - Jinseng Vanderkloot 101031534 - Due: March 1, 2022</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.</a></li><li><a href="#4">Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape.</a></li><li><a href="#7">Analytical Solution</a></li><li><a href="#8">Part 2 - made a function to easily change the parameters of the area.</a></li><li><a href="#9">A2_2A - Get Current Flow through area and use function.</a></li><li><a href="#10">A2_2B - Change Mesh Density</a></li><li><a href="#11">A2_2C - Narrow the Bottleneck</a></li><li><a href="#12">A2_2D - Varrying conductivity in the box</a></li></ul></div><h2 id="1">Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+  </style></head><body><div class="content"><h1>ELEC 4700 Assignment 2</h1><!--introduction--><p>Finite Difference Method - Jinseng Vanderkloot 101031534 - Due: March 1, 2022</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.</a></li><li><a href="#4">Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape.</a></li><li><a href="#7">Analytical Solution</a></li><li><a href="#8">Part 2 - made a function to easily change the parameters of the area.</a></li><li><a href="#9">A2_2A - Get Current Flow through area and use function.</a></li><li><a href="#10">A2_2B - Change Mesh Density</a></li><li><a href="#11">A2_2C - Narrow the Bottleneck</a></li><li><a href="#12">A2_2D - Varrying conductivity in the box</a></li></ul></div><h2 id="1">Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.</h2><pre class="codeinput"><span class="comment">%Assume distance is in Nano meters</span>
+nx = 75; <span class="comment">% # of colums</span>
 ny = 50; <span class="comment">% # of rows</span>
 G = sparse(nx*ny,ny*nx);
 F = zeros(nx*ny,1);
@@ -106,7 +107,8 @@ F = zeros(nx*ny,1);
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); <span class="comment">% Reshaping Vector to a matrix</span>
-figure(<span class="string">'name'</span>, <span class="string">'Solution 1A'</span>), title(<span class="string">'Simulation Solution'</span>), surf(Vmap'), view(90,0);
+figure(<span class="string">'name'</span>, <span class="string">'Solution 1A'</span>), surf(Vmap')
+title(<span class="string">'Simulation Solution'</span>), xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10),zlabel(<span class="string">'Voltage (V)'</span>, <span class="string">'FontSize'</span>, 10), view(90,0);
 </pre><img vspace="5" hspace="5" src="A2_Report_01.png" alt=""> <h2 id="4">Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape.</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
 ny = 50; <span class="comment">% # of rows</span>
 G = sparse(nx*ny,ny*nx);
@@ -142,8 +144,11 @@ F = zeros(nx*ny,1);
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); <span class="comment">% Reshaping Vector to a matrix</span>
-figure(<span class="string">'name'</span>, <span class="string">'Solution 1B'</span>), surf(Vmap), view(0,90);
-</pre><img vspace="5" hspace="5" src="A2_Report_02.png" alt=""> <h2 id="7">Analytical Solution</h2><pre class="codeinput">a = nx;
+figure(<span class="string">'name'</span>, <span class="string">'Solution 1B'</span>), surf(Vmap), title(<span class="string">'Simulation Solution 2D'</span>)
+xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10),zlabel(<span class="string">'Voltage (V)'</span>, <span class="string">'FontSize'</span>, 10), view(0,90);
+figure(<span class="string">'name'</span>, <span class="string">'Solution 1B'</span>), surf(Vmap), title(<span class="string">'Simulation Solution 3D'</span>)
+xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10),zlabel(<span class="string">'Voltage (V)'</span>, <span class="string">'FontSize'</span>, 10);
+</pre><img vspace="5" hspace="5" src="A2_Report_02.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_03.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_04.png" alt=""> <h2 id="7">Analytical Solution</h2><pre class="codeinput">a = nx;
 b = ny/2;
 x = linspace(-b, b, nx); <span class="comment">% needs to be +b and -b for both sides of surface</span>
 y = linspace(0, a, ny);
@@ -153,11 +158,17 @@ figure(<span class="string">'name'</span>, <span class="string">'Equation Soluti
 [X,Y] = meshgrid(x,y);
 <span class="keyword">for</span> n = 1:2:99 <span class="comment">%1,3,5,7...99</span>
     V2 = V2 + ( (1/n) * (cosh((n*pi*X)/a)/cosh((n*pi*b)/a)).* sin((n*pi*Y)/a) );
-    surf(4/pi*V2), title(<span class="string">'Equation Solution'</span>), view(0,90);
+    surf(4/pi*V2), title(<span class="string">'Equation Solution'</span>), title(<span class="string">'Simulation Solution 2D'</span>), view(0,90);
     pause(0.01);
 <span class="keyword">end</span>
+
+xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10),zlabel(<span class="string">'Voltage (V)'</span>, <span class="string">'FontSize'</span>, 10);
+figure(<span class="string">'name'</span>, <span class="string">'Equation Solution'</span>)
+surf(4/pi*V2), title(<span class="string">'Equation Solution'</span>), title(<span class="string">'Simulation Solution 3D'</span>);
+xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10),zlabel(<span class="string">'Voltage (V)'</span>, <span class="string">'FontSize'</span>, 10);
+
 <span class="comment">% The simulated solution matches closely the analytical solution, the analytical solution wont complete at the corners becuase it is infinite and hard to solve.</span>
-</pre><img vspace="5" hspace="5" src="A2_Report_03.png" alt=""> <h2 id="8">Part 2 - made a function to easily change the parameters of the area.</h2><pre class="codeinput"><span class="comment">%Make this into a function like in the intro to the lab which inputs size;</span>
+</pre><img vspace="5" hspace="5" src="A2_Report_05.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_06.png" alt=""> <h2 id="8">Part 2 - made a function to easily change the parameters of the area.</h2><pre class="codeinput"><span class="comment">%Make this into a function like in the intro to the lab which inputs size;</span>
 <span class="comment">% of area, size of boxes (placed into the middle x and bottom and top).;</span>
 <span class="comment">% and box conduction values;</span>
 <span class="comment">%function [V] = A2_Function(nx, ny, xBox, yBox,boxCond,x0,x1);</span>
@@ -238,26 +249,28 @@ V=A2_Function(nx, ny, xBox, yBox, boxCond, x0, x1);
 
 Vmap = reshape(V, [ny, nx]); <span class="comment">% Reshaping Vector to a matrix</span>
 figure(<span class="string">'name'</span>, <span class="string">'Voltage Solution'</span>)
-surf(Vmap),title(<span class="string">'Voltage Map'</span>),view(2);
+surf(Vmap),title(<span class="string">'Voltage Map'</span>)
+xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10),zlabel(<span class="string">'Voltage (V)'</span>),view(2);
 
 <span class="comment">% Conductivity Map</span>
 figure(<span class="string">'name'</span>, <span class="string">'Conductivity Map'</span>);
-surf(Carea), title(<span class="string">'Conductivity Map'</span>);
+surf(Carea), title(<span class="string">'Conductivity Map'</span>)
+xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10),zlabel(<span class="string">'Conduction Const (W/nmK)'</span>);
 
 <span class="comment">% Electric Field</span>
 [Ex,Ey] = gradient(-Vmap);
 figure(<span class="string">'name'</span>, <span class="string">'Electric Field'</span>);
-quiver(Ex,Ey), title(<span class="string">'Electric Field'</span>);
+quiver(Ex,Ey), xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10), title(<span class="string">'Electric Field'</span>);
 
 <span class="comment">% Current Flow</span>
 Jx = Carea'.* Ex;
 Jy = Carea'.* Ey;
 figure(<span class="string">'name'</span>, <span class="string">'Current Flow'</span>);
-quiver(Jx,Jy), title(<span class="string">'Current Flow'</span>);
+quiver(Jx,Jy), xlabel(<span class="string">'Width(nm)'</span>, <span class="string">'FontSize'</span>, 10), ylabel(<span class="string">'Length(nm)'</span>, <span class="string">'FontSize'</span>, 10), title(<span class="string">'Current Flow'</span>);
 
 <span class="comment">%When size of area increases, there is more space for current to flow</span>
 <span class="comment">%therefor the current density if less.</span>
-</pre><img vspace="5" hspace="5" src="A2_Report_04.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_05.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_06.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_07.png" alt=""> <h2 id="10">A2_2B - Change Mesh Density</h2><pre class="codeinput">warning (<span class="string">'off'</span>)
+</pre><img vspace="5" hspace="5" src="A2_Report_07.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_08.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_09.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_10.png" alt=""> <h2 id="10">A2_2B - Change Mesh Density</h2><pre class="codeinput">warning (<span class="string">'off'</span>)
 mesh = 1:1:5; <span class="comment">%increase mesh 5 times in steps of 1 and see effect</span>
 x0 = 1; <span class="comment">%voltage at right side of area</span>
 x1 = 0; <span class="comment">%Voltage at left side of area</span>
@@ -280,10 +293,10 @@ cur = zeros(size(mesh,2),1);
 
 figure(<span class="string">'name'</span>, <span class="string">'Max Current vs Mesh size'</span>);
 plot(mesh,cur, <span class="string">'r'</span>);
-xlabel(<span class="string">'Mesh size'</span>);
+xlabel(<span class="string">'Mesh size scaling factor'</span>);
 ylabel(<span class="string">'Maximum Current Density (A/m^2)'</span>);
-title(<span class="string">'Max Current vs Mesh size'</span>);
-</pre><img vspace="5" hspace="5" src="A2_Report_08.png" alt=""> <h2 id="11">A2_2C - Narrow the Bottleneck</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+title(<span class="string">'Max Current vs Mesh size scaling factor'</span>);
+</pre><img vspace="5" hspace="5" src="A2_Report_11.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_12.png" alt=""> <h2 id="11">A2_2C - Narrow the Bottleneck</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
 ny = 50; <span class="comment">% # of rows</span>
 xBox = 25; <span class="comment">%Width of box</span>
 yBox = 1:1:25; <span class="comment">%Length of box</span>
@@ -308,7 +321,7 @@ title(<span class="string">'Max Current vs bottle-neck'</span>);
 
 <span class="comment">%Current Density increases as the current squeezes though a smaller area</span>
 <span class="comment">%until it is completely cut off.</span>
-</pre><img vspace="5" hspace="5" src="A2_Report_09.png" alt=""> <h2 id="12">A2_2D - Varrying conductivity in the box</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
+</pre><img vspace="5" hspace="5" src="A2_Report_13.png" alt=""> <img vspace="5" hspace="5" src="A2_Report_14.png" alt=""> <h2 id="12">A2_2D - Varrying conductivity in the box</h2><pre class="codeinput">nx = 75; <span class="comment">% # of colums</span>
 ny = 50; <span class="comment">% # of rows</span>
 xBox = 25; <span class="comment">%Width of box</span>
 yBox = 15; <span class="comment">%Length of box</span>
@@ -335,12 +348,13 @@ title(<span class="string">'Max Current vs Box Conductivity'</span>);
 <span class="comment">%When increasing the conductivity of the boxes, more current will flow</span>
 <span class="comment">%through them increasing the maximum current density through the entire</span>
 <span class="comment">%area</span>
-</pre><img vspace="5" hspace="5" src="A2_Report_10.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="A2_Report_15.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% ELEC 4700 Assignment 2
 % Finite Difference Method - Jinseng Vanderkloot 101031534 - Due: March 1, 2022
 
 %% Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.
+%Assume distance is in Nano meters 
 nx = 75; % # of colums
 ny = 50; % # of rows
 G = sparse(nx*ny,ny*nx);
@@ -380,7 +394,8 @@ end
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution 1A'), title('Simulation Solution'), surf(Vmap'), view(90,0);
+figure('name', 'Solution 1A'), surf(Vmap')
+title('Simulation Solution'), xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10), view(90,0);
 %% 
 %% 
 %% Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape. 
@@ -419,7 +434,10 @@ end
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution 1B'), surf(Vmap), view(0,90);
+figure('name', 'Solution 1B'), surf(Vmap), title('Simulation Solution 2D')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10), view(0,90);
+figure('name', 'Solution 1B'), surf(Vmap), title('Simulation Solution 3D')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10);
 %% 
 %% 
 %% Analytical Solution 
@@ -434,9 +452,15 @@ figure('name', 'Equation Solution')
 [X,Y] = meshgrid(x,y);
 for n = 1:2:99 %1,3,5,7...99
     V2 = V2 + ( (1/n) * (cosh((n*pi*X)/a)/cosh((n*pi*b)/a)).* sin((n*pi*Y)/a) );
-    surf(4/pi*V2), title('Equation Solution'), view(0,90);
+    surf(4/pi*V2), title('Equation Solution'), title('Simulation Solution 2D'), view(0,90);
     pause(0.01);
 end
+
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10);
+figure('name', 'Equation Solution')
+surf(4/pi*V2), title('Equation Solution'), title('Simulation Solution 3D');
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10);
+
 % The simulated solution matches closely the analytical solution, the analytical solution wont complete at the corners becuase it is infinite and hard to solve.
 %% Part 2 - made a function to easily change the parameters of the area.
 %Make this into a function like in the intro to the lab which inputs size;
@@ -521,22 +545,24 @@ V=A2_Function(nx, ny, xBox, yBox, boxCond, x0, x1);
 
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
 figure('name', 'Voltage Solution')
-surf(Vmap),title('Voltage Map'),view(2);
+surf(Vmap),title('Voltage Map')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)'),view(2);
 
 % Conductivity Map
 figure('name', 'Conductivity Map');
-surf(Carea), title('Conductivity Map');
+surf(Carea), title('Conductivity Map')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Conduction Const (W/nmK)');
 
 % Electric Field
 [Ex,Ey] = gradient(-Vmap);
 figure('name', 'Electric Field');
-quiver(Ex,Ey), title('Electric Field');
+quiver(Ex,Ey), xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10), title('Electric Field');
 
 % Current Flow
 Jx = Carea'.* Ex;
 Jy = Carea'.* Ey;
 figure('name', 'Current Flow');
-quiver(Jx,Jy), title('Current Flow');
+quiver(Jx,Jy), xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10), title('Current Flow');
 
 %When size of area increases, there is more space for current to flow
 %therefor the current density if less. 
@@ -564,9 +590,9 @@ end
 
 figure('name', 'Max Current vs Mesh size');
 plot(mesh,cur, 'r');
-xlabel('Mesh size');
+xlabel('Mesh size scaling factor');
 ylabel('Maximum Current Density (A/m^2)');
-title('Max Current vs Mesh size');
+title('Max Current vs Mesh size scaling factor');
 
 %% A2_2C - Narrow the Bottleneck 
 nx = 75; % # of colums

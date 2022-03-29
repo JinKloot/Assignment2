@@ -2,6 +2,7 @@
 % Finite Difference Method - Jinseng Vanderkloot 101031534 - Due: March 1, 2022
 
 %% Part 1A: Define the area and see what happens when left side is 1V and right side is 0V while top and bottom isolate.
+%Assume distance is in Nano meters 
 nx = 75; % # of colums
 ny = 50; % # of rows
 G = sparse(nx*ny,ny*nx);
@@ -41,7 +42,8 @@ end
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution 1A'), title('Simulation Solution'), surf(Vmap'), view(90,0);
+figure('name', 'Solution 1A'), surf(Vmap')
+title('Simulation Solution'), xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10), view(90,0);
 %% 
 %% 
 %% Part 1B: Both left and right have 1V and sides and top and bottom are 0V, get the finite difference solution and compare the mathmatical solution for the shape. 
@@ -80,7 +82,10 @@ end
 
 V = G\F;
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
-figure('name', 'Solution 1B'), surf(Vmap), view(0,90);
+figure('name', 'Solution 1B'), surf(Vmap), title('Simulation Solution 2D')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10), view(0,90);
+figure('name', 'Solution 1B'), surf(Vmap), title('Simulation Solution 3D')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10);
 %% 
 %% 
 %% Analytical Solution 
@@ -95,9 +100,15 @@ figure('name', 'Equation Solution')
 [X,Y] = meshgrid(x,y);
 for n = 1:2:99 %1,3,5,7...99
     V2 = V2 + ( (1/n) * (cosh((n*pi*X)/a)/cosh((n*pi*b)/a)).* sin((n*pi*Y)/a) );
-    surf(4/pi*V2), title('Equation Solution'), view(0,90);
+    surf(4/pi*V2), title('Equation Solution'), title('Simulation Solution 2D'), view(0,90);
     pause(0.01);
 end
+
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10);
+figure('name', 'Equation Solution')
+surf(4/pi*V2), title('Equation Solution'), title('Simulation Solution 3D');
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)', 'FontSize', 10);
+
 % The simulated solution matches closely the analytical solution, the analytical solution wont complete at the corners becuase it is infinite and hard to solve.
 %% Part 2 - made a function to easily change the parameters of the area.
 %Make this into a function like in the intro to the lab which inputs size;
@@ -182,22 +193,24 @@ V=A2_Function(nx, ny, xBox, yBox, boxCond, x0, x1);
 
 Vmap = reshape(V, [ny, nx]); % Reshaping Vector to a matrix
 figure('name', 'Voltage Solution')
-surf(Vmap),title('Voltage Map'),view(2);
+surf(Vmap),title('Voltage Map')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Voltage (V)'),view(2);
 
 % Conductivity Map
 figure('name', 'Conductivity Map');
-surf(Carea), title('Conductivity Map');
+surf(Carea), title('Conductivity Map')
+xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10),zlabel('Conduction Const (W/nmK)');
 
 % Electric Field
 [Ex,Ey] = gradient(-Vmap);
 figure('name', 'Electric Field');
-quiver(Ex,Ey), title('Electric Field');
+quiver(Ex,Ey), xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10), title('Electric Field');
 
 % Current Flow
 Jx = Carea'.* Ex;
 Jy = Carea'.* Ey;
 figure('name', 'Current Flow');
-quiver(Jx,Jy), title('Current Flow');
+quiver(Jx,Jy), xlabel('Width(nm)', 'FontSize', 10), ylabel('Length(nm)', 'FontSize', 10), title('Current Flow');
 
 %When size of area increases, there is more space for current to flow
 %therefor the current density if less. 
@@ -225,9 +238,9 @@ end
 
 figure('name', 'Max Current vs Mesh size');
 plot(mesh,cur, 'r');
-xlabel('Mesh size');
+xlabel('Mesh size scaling factor');
 ylabel('Maximum Current Density (A/m^2)');
-title('Max Current vs Mesh size');
+title('Max Current vs Mesh size scaling factor');
 
 %% A2_2C - Narrow the Bottleneck 
 nx = 75; % # of colums
@@ -249,8 +262,8 @@ end
 
 figure('name', 'Max Current vs bottle-neck');
 plot(yBox,cur, 'r');
-xlabel('Height of Box (m)');
-ylabel('Maximum Current Density (A/m^2)');
+xlabel('Height of Box (nm)');
+ylabel('Maximum Current Density (A/nm^2)');
 title('Max Current vs bottle-neck');
 
 %Current Density increases as the current squeezes though a smaller area
@@ -278,8 +291,8 @@ end
 figure('name', 'Max Current vs Box Conductivity');
 plot(boxCond,cur, 'r');
 set(gca, 'XScale', 'log');
-xlabel('Box Conductivity (S/m)');
-ylabel('Maximum Current Density (A/m^2)');
+xlabel('Box Conductivity (S/nm)');
+ylabel('Maximum Current Density (A/nm^2)');
 title('Max Current vs Box Conductivity');
 
 %When increasing the conductivity of the boxes, more current will flow
